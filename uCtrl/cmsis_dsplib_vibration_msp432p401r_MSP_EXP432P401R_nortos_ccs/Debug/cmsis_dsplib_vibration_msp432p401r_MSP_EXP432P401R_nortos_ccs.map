@@ -1,0 +1,412 @@
+******************************************************************************
+                  TI ARM Linker Unix v18.12.4                  
+******************************************************************************
+>> Linked Wed Mar 11 12:16:53 2020
+
+OUTPUT FILE NAME:   <cmsis_dsplib_vibration_msp432p401r_MSP_EXP432P401R_nortos_ccs.out>
+ENTRY POINT SYMBOL: "_c_int00_noargs"  address: 00001801
+
+
+MEMORY CONFIGURATION
+
+         name            origin    length      used     unused   attr    fill
+----------------------  --------  ---------  --------  --------  ----  --------
+  MAIN                  00000000   00040000  00002d42  0003d2be  R  X
+  INFO                  00200000   00004000  00000000  00004000  R  X
+  SRAM_CODE             01000000   00010000  00000807  0000f7f9  RW X
+  SRAM_DATA             20000000   00010000  00000807  0000f7f9  RW  
+
+
+SEGMENT ALLOCATION MAP
+
+run origin  load origin   length   init length attrs members
+----------  ----------- ---------- ----------- ----- -------
+00000000    00000000    00002d48   00002d48    r-x
+  00000000    00000000    000000e4   000000e4    r-- .intvecs
+  000000e4    000000e4    000017b6   000017b6    r-x .text
+  0000189c    0000189c    00001478   00001478    r-- .const
+  00002d18    00002d18    00000030   00000030    r-- .cinit
+20000000    20000000    00000608   00000000    rw-
+  20000000    20000000    000005ff   00000000    rw- .bss
+  20000600    20000600    00000008   00000000    rw- .data
+2000fe00    2000fe00    00000200   00000000    rw-
+  2000fe00    2000fe00    00000200   00000000    rw- .stack
+
+
+SECTION ALLOCATION MAP
+
+ output                                  attributes/
+section   page    origin      length       input sections
+--------  ----  ----------  ----------   ----------------
+.intvecs   0    00000000    000000e4     
+                  00000000    000000e4     startup_msp432p401r_ccs.obj (.intvecs:retain)
+
+.text      0    000000e4    000017b6     
+                  000000e4    000004a6     arm_cortexM4lf_math.a : arm_cfft_radix4_q15.o (.text:arm_radix4_butterfly_inverse_q15)
+                  0000058a    00000002     startup_msp432p401r_ccs.obj (.text:Default_Handler)
+                  0000058c    000004a6     arm_cortexM4lf_math.a : arm_cfft_radix4_q15.o (.text:arm_radix4_butterfly_q15)
+                  00000a32    00000002     --HOLE-- [fill = 0]
+                  00000a34    000001c0                           : arm_sqrt_q15.o (.text:arm_sqrt_q15)
+                  00000bf4    0000018c                           : arm_cfft_q15.o (.text:arm_cfft_radix4by2_inverse_q15)
+                  00000d80    0000018c                           : arm_cfft_q15.o (.text:arm_cfft_radix4by2_q15)
+                  00000f0c    00000160     msp432p4xx_driverlib.lib : adc14.o (.text:_getIndexForMemRegister)
+                  0000106c    00000120     main.obj (.text:main)
+                  0000118c    000000ea     arm_cortexM4lf_math.a : arm_cmplx_mag_q15.o (.text:arm_cmplx_mag_q15)
+                  00001276    000000e8                           : arm_cfft_q15.o (.text:arm_cfft_q15)
+                  0000135e    000000c0                           : arm_bitreversal2.o (.text)
+                  0000141e    00000002     --HOLE-- [fill = 0]
+                  00001420    000000b4     msp432p4xx_driverlib.lib : adc14.o (.text:ADC14_configureConversionMemory)
+                  000014d4    000000a4     main.obj (.text:ADC14_IRQHandler)
+                  00001578    0000009c     rtsv7M4_T_le_v4SPD16_eabi.lib : memcpy_t2.asm.obj (.text)
+                  00001614    0000007a                                   : memset_t2.asm.obj (.text)
+                  0000168e    00000002     --HOLE-- [fill = 0]
+                  00001690    00000078     system_msp432p401r.obj (.text:SystemInit)
+                  00001708    00000068     rtsv7M4_T_le_v4SPD16_eabi.lib : copy_decompress_lzss.c.obj (.text:decompress:lzss:__TI_decompress_lzss)
+                  00001770    0000004c     msp432p4xx_driverlib.lib : timer_a.o (.text:Timer_A_getCounterValue)
+                  000017bc    00000044     rtsv7M4_T_le_v4SPD16_eabi.lib : autoinit.c.obj (.text:__TI_auto_init_nobinit_nopinit:__TI_auto_init_nobinit_nopinit)
+                  00001800    00000034                                   : boot_cortex_m.c.obj (.text:_c_int00_noargs:_c_int00_noargs)
+                  00001834    00000028     msp432p4xx_driverlib.lib : adc14.o (.text:ADC14_getResult)
+                  0000185c    00000010                              : adc14.o (.text:ADCIsConversionRunning)
+                  0000186c    0000000e     rtsv7M4_T_le_v4SPD16_eabi.lib : copy_decompress_none.c.obj (.text:decompress:none:__TI_decompress_none)
+                  0000187a    0000000c     startup_msp432p401r_ccs.obj (.text:Reset_Handler)
+                  00001886    0000000c     rtsv7M4_T_le_v4SPD16_eabi.lib : copy_zero_init.c.obj (.text:decompress:ZI:__TI_zero_init)
+                  00001892    00000004                                   : pre_init.c.obj (.text:_system_pre_init)
+                  00001896    00000004                                   : exit.c.obj (.text:abort:abort)
+
+.const     0    0000189c    00001478     
+                  0000189c    00000c00     arm_cortexM4lf_math.a : arm_common_tables.o (.const:twiddleCoef_1024_q15)
+                  0000249c    000007c0                           : arm_common_tables.o (.const:armBitRevIndexTable_fixed_1024)
+                  00002c5c    00000080     msp432p4xx_driverlib.lib : adc14.o (.const:_ctlRegs)
+                  00002cdc    00000018     main.obj (.const:upModeConfig)
+                  00002cf4    00000010     arm_cortexM4lf_math.a : arm_const_structs.o (.const:arm_cfft_sR_q15_len1024)
+                  00002d04    00000010     main.obj (.const:compareConfig)
+
+.cinit     0    00002d18    00000030     
+                  00002d18    0000000c     (__TI_handler_table)
+                  00002d24    0000000a     (.cinit..data.load) [load image, compression = lzss]
+                  00002d2e    00000002     --HOLE-- [fill = 0]
+                  00002d30    00000008     (.cinit..bss.load) [load image, compression = zero_init]
+                  00002d38    00000010     (__TI_cinit_table)
+
+.init_array 
+*          0    00000000    00000000     UNINITIALIZED
+
+.binit     0    00000000    00000000     
+
+.bss       0    20000000    000005ff     UNINITIALIZED
+                  20000000    000003fc     main.obj (.bss:resultsBuffer)
+                  200003fc    00000200     (.common:fftOutput)
+                  200005fc    00000002     (.common:counter)
+                  200005fe    00000001     main.obj (.bss)
+
+.data      0    20000600    00000008     UNINITIALIZED
+                  20000600    00000008     main.obj (.data)
+
+.stack     0    2000fe00    00000200     UNINITIALIZED
+                  2000fe00    00000004     rtsv7M4_T_le_v4SPD16_eabi.lib : boot_cortex_m.c.obj (.stack)
+                  2000fe04    000001fc     --HOLE--
+
+MODULE SUMMARY
+
+       Module                        code   ro data   rw data
+       ------                        ----   -------   -------
+    ./
+       main.obj                      452    40        3086   
+       system_msp432p401r.obj        120    0         0      
+    +--+-----------------------------+------+---------+---------+
+       Total:                        572    40        3086   
+                                                             
+    ./ccs/
+       startup_msp432p401r_ccs.obj   14     228       0      
+    +--+-----------------------------+------+---------+---------+
+       Total:                        14     228       0      
+                                                             
+    /home/akhil/ti/simplelink_msp432p4_sdk_3_40_01_02/source/third_party/CMSIS/DSP_Lib/lib/ccs/m4f/arm_cortexM4lf_math.a
+       arm_common_tables.o           0      5056      0      
+       arm_cfft_radix4_q15.o         2380   0         0      
+       arm_cfft_q15.o                1024   0         0      
+       arm_sqrt_q15.o                448    0         0      
+       arm_cmplx_mag_q15.o           234    0         0      
+       arm_bitreversal2.o            192    0         0      
+       arm_const_structs.o           0      16        0      
+    +--+-----------------------------+------+---------+---------+
+       Total:                        4278   5072      0      
+                                                             
+    /home/akhil/ti/simplelink_msp432p4_sdk_3_40_01_02/source/ti/devices/msp432p4xx/driverlib/ccs/msp432p4xx_driverlib.lib
+       adc14.o                       588    128       0      
+       timer_a.o                     76     0         0      
+    +--+-----------------------------+------+---------+---------+
+       Total:                        664    128       0      
+                                                             
+    /opt/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_18.12.4.LTS/lib/rtsv7M4_T_le_v4SPD16_eabi.lib
+       memcpy_t2.asm.obj             156    0         0      
+       memset_t2.asm.obj             122    0         0      
+       copy_decompress_lzss.c.obj    104    0         0      
+       autoinit.c.obj                68     0         0      
+       boot_cortex_m.c.obj           52     0         0      
+       copy_decompress_none.c.obj    14     0         0      
+       copy_zero_init.c.obj          12     0         0      
+       exit.c.obj                    4      0         0      
+       pre_init.c.obj                4      0         0      
+    +--+-----------------------------+------+---------+---------+
+       Total:                        536    0         0      
+                                                             
+       Stack:                        0      0         1024   
+       Linker Generated:             0      46        0      
+    +--+-----------------------------+------+---------+---------+
+       Grand Total:                  6064   5514      4110   
+
+
+LINKER GENERATED COPY TABLES
+
+__TI_cinit_table @ 00002d38 records: 2, size/record: 8, table size: 16
+	.data: load addr=00002d24, load size=0000000a bytes, run addr=20000600, run size=00000008 bytes, compression=lzss
+	.bss: load addr=00002d30, load size=00000008 bytes, run addr=20000000, run size=000005ff bytes, compression=zero_init
+
+
+LINKER GENERATED HANDLER TABLE
+
+__TI_handler_table @ 00002d18 records: 3, size/record: 4, table size: 12
+	index: 0, handler: __TI_decompress_lzss
+	index: 1, handler: __TI_decompress_none
+	index: 2, handler: __TI_zero_init
+
+
+GLOBAL SYMBOLS: SORTED ALPHABETICALLY BY Name 
+
+address   name                            
+-------   ----                            
+000014d5  ADC14_IRQHandler                
+000014d5  ADC14_IRQHandler                
+00001421  ADC14_configureConversionMemory 
+00001835  ADC14_getResult                 
+0000058b  AES256_IRQHandler               
+0000058b  BusFault_Handler                
+00001897  C$$EXIT                         
+0000058b  COMP_E0_IRQHandler              
+0000058b  COMP_E1_IRQHandler              
+0000058b  CS_IRQHandler                   
+0000058b  DMA_ERR_IRQHandler              
+0000058b  DMA_INT0_IRQHandler             
+0000058b  DMA_INT1_IRQHandler             
+0000058b  DMA_INT2_IRQHandler             
+0000058b  DMA_INT3_IRQHandler             
+0000058b  DebugMon_Handler                
+0000058b  Default_Handler                 
+0000058b  EUSCIA0_IRQHandler              
+0000058b  EUSCIA1_IRQHandler              
+0000058b  EUSCIA2_IRQHandler              
+0000058b  EUSCIA3_IRQHandler              
+0000058b  EUSCIB0_IRQHandler              
+0000058b  EUSCIB1_IRQHandler              
+0000058b  EUSCIB2_IRQHandler              
+0000058b  EUSCIB3_IRQHandler              
+0000058b  FLCTL_IRQHandler                
+0000058b  FPU_IRQHandler                  
+0000058b  HardFault_Handler               
+0000058b  MemManage_Handler               
+0000058b  NMI_Handler                     
+0000058b  PCM_IRQHandler                  
+0000058b  PORT1_IRQHandler                
+0000058b  PORT2_IRQHandler                
+0000058b  PORT3_IRQHandler                
+0000058b  PORT4_IRQHandler                
+0000058b  PORT5_IRQHandler                
+0000058b  PORT6_IRQHandler                
+0000058b  PSS_IRQHandler                  
+0000058b  PendSV_Handler                  
+0000058b  RTC_C_IRQHandler                
+0000187b  Reset_Handler                   
+0000058b  SVC_Handler                     
+0000058b  SysTick_Handler                 
+00001691  SystemInit                      
+0000058b  T32_INT1_IRQHandler             
+0000058b  T32_INT2_IRQHandler             
+0000058b  T32_INTC_IRQHandler             
+0000058b  TA0_0_IRQHandler                
+0000058b  TA0_N_IRQHandler                
+0000058b  TA1_0_IRQHandler                
+0000058b  TA1_N_IRQHandler                
+0000058b  TA2_0_IRQHandler                
+0000058b  TA2_N_IRQHandler                
+0000058b  TA3_0_IRQHandler                
+0000058b  TA3_N_IRQHandler                
+00001771  Timer_A_getCounterValue         
+0000058b  UsageFault_Handler              
+4000480c  WDTCTL_SYM                      
+0000058b  WDT_A_IRQHandler                
+20010000  __STACK_END                     
+00000200  __STACK_SIZE                    
+00002d38  __TI_CINIT_Base                 
+00002d48  __TI_CINIT_Limit                
+00002d18  __TI_Handler_Table_Base         
+00002d24  __TI_Handler_Table_Limit        
+000017bd  __TI_auto_init_nobinit_nopinit  
+00001709  __TI_decompress_lzss            
+0000186d  __TI_decompress_none            
+ffffffff  __TI_pprof_out_hndl             
+ffffffff  __TI_prof_data_size             
+ffffffff  __TI_prof_data_start            
+00000000  __TI_static_base__              
+00001887  __TI_zero_init                  
+00001615  __aeabi_memclr                  
+00001615  __aeabi_memclr4                 
+00001615  __aeabi_memclr8                 
+00001579  __aeabi_memcpy                  
+00001579  __aeabi_memcpy4                 
+00001579  __aeabi_memcpy8                 
+00001617  __aeabi_memset                  
+00001617  __aeabi_memset4                 
+00001617  __aeabi_memset8                 
+ffffffff  __binit__                       
+ffffffff  __c_args__                      
+UNDEFED   __mpu_init                      
+2000fe00  __stack                         
+00001801  _c_int00_noargs                 
+UNDEFED   _system_post_cinit              
+00001893  _system_pre_init                
+00001897  abort                           
+0000249c  armBitRevIndexTable_fixed_1024  
+000013c9  arm_bitreversal_16              
+0000135f  arm_bitreversal_32              
+00001277  arm_cfft_q15                    
+00000bf5  arm_cfft_radix4by2_inverse_q15  
+00000d81  arm_cfft_radix4by2_q15          
+00002cf4  arm_cfft_sR_q15_len1024         
+0000118d  arm_cmplx_mag_q15               
+000000e5  arm_radix4_butterfly_inverse_q15
+0000058d  arm_radix4_butterfly_q15        
+00000a35  arm_sqrt_q15                    
+ffffffff  binit                           
+00002d04  compareConfig                   
+200005fc  counter                         
+20000604  doBitReverse                    
+200003fc  fftOutput                       
+20000600  ifftFlag                        
+00000000  interruptVectors                
+0000106d  main                            
+00001579  memcpy                          
+0000161d  memset                          
+0000189c  twiddleCoef_1024_q15            
+00002cdc  upModeConfig                    
+
+
+GLOBAL SYMBOLS: SORTED BY Symbol Address 
+
+address   name                            
+-------   ----                            
+00000000  __TI_static_base__              
+00000000  interruptVectors                
+000000e5  arm_radix4_butterfly_inverse_q15
+00000200  __STACK_SIZE                    
+0000058b  AES256_IRQHandler               
+0000058b  BusFault_Handler                
+0000058b  COMP_E0_IRQHandler              
+0000058b  COMP_E1_IRQHandler              
+0000058b  CS_IRQHandler                   
+0000058b  DMA_ERR_IRQHandler              
+0000058b  DMA_INT0_IRQHandler             
+0000058b  DMA_INT1_IRQHandler             
+0000058b  DMA_INT2_IRQHandler             
+0000058b  DMA_INT3_IRQHandler             
+0000058b  DebugMon_Handler                
+0000058b  Default_Handler                 
+0000058b  EUSCIA0_IRQHandler              
+0000058b  EUSCIA1_IRQHandler              
+0000058b  EUSCIA2_IRQHandler              
+0000058b  EUSCIA3_IRQHandler              
+0000058b  EUSCIB0_IRQHandler              
+0000058b  EUSCIB1_IRQHandler              
+0000058b  EUSCIB2_IRQHandler              
+0000058b  EUSCIB3_IRQHandler              
+0000058b  FLCTL_IRQHandler                
+0000058b  FPU_IRQHandler                  
+0000058b  HardFault_Handler               
+0000058b  MemManage_Handler               
+0000058b  NMI_Handler                     
+0000058b  PCM_IRQHandler                  
+0000058b  PORT1_IRQHandler                
+0000058b  PORT2_IRQHandler                
+0000058b  PORT3_IRQHandler                
+0000058b  PORT4_IRQHandler                
+0000058b  PORT5_IRQHandler                
+0000058b  PORT6_IRQHandler                
+0000058b  PSS_IRQHandler                  
+0000058b  PendSV_Handler                  
+0000058b  RTC_C_IRQHandler                
+0000058b  SVC_Handler                     
+0000058b  SysTick_Handler                 
+0000058b  T32_INT1_IRQHandler             
+0000058b  T32_INT2_IRQHandler             
+0000058b  T32_INTC_IRQHandler             
+0000058b  TA0_0_IRQHandler                
+0000058b  TA0_N_IRQHandler                
+0000058b  TA1_0_IRQHandler                
+0000058b  TA1_N_IRQHandler                
+0000058b  TA2_0_IRQHandler                
+0000058b  TA2_N_IRQHandler                
+0000058b  TA3_0_IRQHandler                
+0000058b  TA3_N_IRQHandler                
+0000058b  UsageFault_Handler              
+0000058b  WDT_A_IRQHandler                
+0000058d  arm_radix4_butterfly_q15        
+00000a35  arm_sqrt_q15                    
+00000bf5  arm_cfft_radix4by2_inverse_q15  
+00000d81  arm_cfft_radix4by2_q15          
+0000106d  main                            
+0000118d  arm_cmplx_mag_q15               
+00001277  arm_cfft_q15                    
+0000135f  arm_bitreversal_32              
+000013c9  arm_bitreversal_16              
+00001421  ADC14_configureConversionMemory 
+000014d5  ADC14_IRQHandler                
+000014d5  ADC14_IRQHandler                
+00001579  __aeabi_memcpy                  
+00001579  __aeabi_memcpy4                 
+00001579  __aeabi_memcpy8                 
+00001579  memcpy                          
+00001615  __aeabi_memclr                  
+00001615  __aeabi_memclr4                 
+00001615  __aeabi_memclr8                 
+00001617  __aeabi_memset                  
+00001617  __aeabi_memset4                 
+00001617  __aeabi_memset8                 
+0000161d  memset                          
+00001691  SystemInit                      
+00001709  __TI_decompress_lzss            
+00001771  Timer_A_getCounterValue         
+000017bd  __TI_auto_init_nobinit_nopinit  
+00001801  _c_int00_noargs                 
+00001835  ADC14_getResult                 
+0000186d  __TI_decompress_none            
+0000187b  Reset_Handler                   
+00001887  __TI_zero_init                  
+00001893  _system_pre_init                
+00001897  C$$EXIT                         
+00001897  abort                           
+0000189c  twiddleCoef_1024_q15            
+0000249c  armBitRevIndexTable_fixed_1024  
+00002cdc  upModeConfig                    
+00002cf4  arm_cfft_sR_q15_len1024         
+00002d04  compareConfig                   
+00002d18  __TI_Handler_Table_Base         
+00002d24  __TI_Handler_Table_Limit        
+00002d38  __TI_CINIT_Base                 
+00002d48  __TI_CINIT_Limit                
+200003fc  fftOutput                       
+200005fc  counter                         
+20000600  ifftFlag                        
+20000604  doBitReverse                    
+2000fe00  __stack                         
+20010000  __STACK_END                     
+4000480c  WDTCTL_SYM                      
+ffffffff  __TI_pprof_out_hndl             
+ffffffff  __TI_prof_data_size             
+ffffffff  __TI_prof_data_start            
+ffffffff  __binit__                       
+ffffffff  __c_args__                      
+ffffffff  binit                           
+UNDEFED   __mpu_init                      
+UNDEFED   _system_post_cinit              
+
+[113 symbols]
