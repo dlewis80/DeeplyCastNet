@@ -18,6 +18,7 @@ namespace AcousticModem
         public StringBuilder RxMessage;
         public bool messageRecieved;
         public bool sendingSettings;
+        public List<int> values;
 
         public AcousticModemForm()
         {
@@ -25,12 +26,13 @@ namespace AcousticModem
             RxMessage = new StringBuilder();
 
             BaudSelect.DataSource = new int[] {110, 300, 600, 1200, 2400, 4800, 9600, 14400, 19200, 38400, 57600, 115200};
-            BaudSelect.SelectedIndex = 6;
+            BaudSelect.SelectedIndex = 4;
 
             TotalTextBox.Text = "3";
 
             messageRecieved = false;
             sendingSettings = false;
+            values = new List<int>();
 
         }
 
@@ -77,13 +79,50 @@ namespace AcousticModem
         {
             string existing = serialPort1.ReadExisting();
 
-            if (sendingSettings && existing == "0")
+            if (sendingSettings && existing[0] == '0')
             {
-                messageRecieved = true;
+                messageRecieved = true;              
                 return;
             }
             else
             {
+
+                foreach (char c in existing) 
+                {
+                    int what = Int16.Parse(c.ToString());
+                    System.Diagnostics.Debug.WriteLine("received " + what);
+                    values.Add(what);
+
+                    if (values.Count() > 20)
+                    {
+                        values.RemoveAt(0);
+                    }
+                }
+
+
+                System.Diagnostics.Debug.Write("list: ");
+                foreach (int i in values)
+                {
+                    System.Diagnostics.Debug.Write(i + ", ");
+                }
+                System.Diagnostics.Debug.WriteLine("");
+
+                System.Diagnostics.Debug.WriteLine("average: " + (values.Sum()/20.0));
+
+                if (values.Sum() / 20.0 >= .9)
+                {
+                    logTextBox.AppendText("1\n");
+                } else if (values.Sum() / 20.0 <= .1)
+                {
+                    logTextBox.AppendText("0\n");
+                }
+                logTextBox.ScrollToCaret();
+
+
+                
+
+
+                /*
                 RxMessage.Append(existing);
 
                 String received = RxMessage.ToString();
@@ -92,11 +131,13 @@ namespace AcousticModem
 
                 System.Diagnostics.Debug.WriteLine("received: " + received + " from source");
 
+
                 if (received.EndsWith("\n"))
                 {
                     logTextBox.AppendText("Rx: " + received);
                     RxMessage.Clear();
                 }
+                */
             }
         }
 
@@ -132,12 +173,13 @@ namespace AcousticModem
 
             bool success = true;
             success &= SendSetting('0', TotalTextBox.Text);
-            success &= SendSetting('1', IdComboBox.SelectedItem.ToString());
-            success &= SendSetting('2', Target1Combo.SelectedItem.ToString());
-            success &= SendSetting('3', Target2Combo.SelectedItem.ToString());
-            success &= SendSetting('4', BinCombo.SelectedItem.ToString());
-            success &= SendSetting('5', EnergyCombo.SelectedItem.ToString());
-            success &= SendSetting('6', GainCombo.SelectedItem.ToString());
+
+            success &= SendSetting('1', IdComboBox.Text);
+            success &= SendSetting('2', Target1Combo.Text);
+            success &= SendSetting('3', Target2Combo.Text);
+            success &= SendSetting('4', BinCombo.Text);
+            success &= SendSetting('5', EnergyCombo.Text);
+            success &= SendSetting('6', GainCombo.Text);
             success &= SendSetting('7', A1TextBox.Text);
             success &= SendSetting('8', A2TextBox.Text);
             success &= SendSetting('9', A3TextBox.Text);
@@ -154,6 +196,7 @@ namespace AcousticModem
 
             if (data == "")
             {
+                System.Diagnostics.Debug.WriteLine("No Data for " + code);
                 return false;
             }
 
@@ -172,6 +215,7 @@ namespace AcousticModem
             {
                 serialPort1.WriteLine(toSend);
 
+                timeout--;
                 if (timeout <= 0)
                 {
                     // Failed to recieve response
