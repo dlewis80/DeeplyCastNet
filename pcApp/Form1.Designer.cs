@@ -43,32 +43,31 @@
             this.sendSerialButton = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.panel4 = new System.Windows.Forms.Panel();
+            this.BinCombo = new System.Windows.Forms.ComboBox();
+            this.SettingsButtonPanel = new System.Windows.Forms.Panel();
+            this.SendSettingsButton = new System.Windows.Forms.Button();
+            this.ResetSettingsButton = new System.Windows.Forms.Button();
+            this.FilterPanel = new System.Windows.Forms.Panel();
+            this.A3TextBox = new System.Windows.Forms.TextBox();
+            this.A2TextBox = new System.Windows.Forms.TextBox();
+            this.A3Label = new System.Windows.Forms.Label();
+            this.A1TextBox = new System.Windows.Forms.TextBox();
+            this.A2Label = new System.Windows.Forms.Label();
+            this.A1Label = new System.Windows.Forms.Label();
+            this.FilterLabel = new System.Windows.Forms.Label();
+            this.BinLabel = new System.Windows.Forms.Label();
+            this.Target1Combo = new System.Windows.Forms.ComboBox();
+            this.TargetLabel = new System.Windows.Forms.Label();
             this.IdComboBox = new System.Windows.Forms.ComboBox();
             this.IdLabel = new System.Windows.Forms.Label();
             this.TotalTextBox = new System.Windows.Forms.TextBox();
             this.TotalLabel = new System.Windows.Forms.Label();
             this.SettingsLabel = new System.Windows.Forms.Label();
-            this.SendSettingsButton = new System.Windows.Forms.Button();
-            this.ResetSettingsButton = new System.Windows.Forms.Button();
-            this.SettingsButtonPanel = new System.Windows.Forms.Panel();
-            this.TargetLabel = new System.Windows.Forms.Label();
-            this.TargetCombo = new System.Windows.Forms.ComboBox();
-            this.BinLabel = new System.Windows.Forms.Label();
-            this.BinCombo = new System.Windows.Forms.ComboBox();
-            this.FilterPanel = new System.Windows.Forms.Panel();
-            this.FilterLabel = new System.Windows.Forms.Label();
-            this.A1Label = new System.Windows.Forms.Label();
-            this.A1TextBox = new System.Windows.Forms.TextBox();
-            this.A2TextBox = new System.Windows.Forms.TextBox();
-            this.A2Label = new System.Windows.Forms.Label();
-            this.A3TextBox = new System.Windows.Forms.TextBox();
-            this.A3Label = new System.Windows.Forms.Label();
-            this.B1TextBox = new System.Windows.Forms.TextBox();
-            this.LabelB1 = new System.Windows.Forms.Label();
-            this.B2TextBox = new System.Windows.Forms.TextBox();
-            this.B2Label = new System.Windows.Forms.Label();
-            this.B3TextBox = new System.Windows.Forms.TextBox();
-            this.B3Label = new System.Windows.Forms.Label();
+            this.EnergyLabel = new System.Windows.Forms.Label();
+            this.EnergyCombo = new System.Windows.Forms.ComboBox();
+            this.GainCombo = new System.Windows.Forms.ComboBox();
+            this.GainLabel = new System.Windows.Forms.Label();
+            this.Target2Combo = new System.Windows.Forms.ComboBox();
             this.StatusPanel.SuspendLayout();
             this.ConnectionPanel.SuspendLayout();
             this.MessagePanel.SuspendLayout();
@@ -91,7 +90,6 @@
             this.StatusPanel.Name = "StatusPanel";
             this.StatusPanel.Size = new System.Drawing.Size(134, 30);
             this.StatusPanel.TabIndex = 1;
-            this.StatusPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
             // 
             // StatusDisplay
             // 
@@ -185,7 +183,6 @@
             this.MessagePanel.Name = "MessagePanel";
             this.MessagePanel.Size = new System.Drawing.Size(255, 149);
             this.MessagePanel.TabIndex = 5;
-            this.MessagePanel.Paint += new System.Windows.Forms.PaintEventHandler(this.panel3_Paint);
             // 
             // logTextBox
             // 
@@ -205,7 +202,6 @@
             this.logTextBox.TabStop = false;
             this.logTextBox.Text = "";
             this.logTextBox.WordWrap = false;
-            this.logTextBox.TextChanged += new System.EventHandler(this.logTextBox_TextChanged);
             // 
             // sendSerialButton
             // 
@@ -232,11 +228,16 @@
             // 
             this.panel4.AutoSize = true;
             this.panel4.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.panel4.Controls.Add(this.BinCombo);
+            this.panel4.Controls.Add(this.Target2Combo);
+            this.panel4.Controls.Add(this.GainLabel);
             this.panel4.Controls.Add(this.SettingsButtonPanel);
             this.panel4.Controls.Add(this.FilterPanel);
+            this.panel4.Controls.Add(this.GainCombo);
+            this.panel4.Controls.Add(this.EnergyCombo);
+            this.panel4.Controls.Add(this.EnergyLabel);
+            this.panel4.Controls.Add(this.BinCombo);
             this.panel4.Controls.Add(this.BinLabel);
-            this.panel4.Controls.Add(this.TargetCombo);
+            this.panel4.Controls.Add(this.Target1Combo);
             this.panel4.Controls.Add(this.TargetLabel);
             this.panel4.Controls.Add(this.IdComboBox);
             this.panel4.Controls.Add(this.IdLabel);
@@ -245,8 +246,146 @@
             this.panel4.Controls.Add(this.SettingsLabel);
             this.panel4.Location = new System.Drawing.Point(13, 109);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(213, 226);
+            this.panel4.Size = new System.Drawing.Size(215, 256);
             this.panel4.TabIndex = 6;
+            // 
+            // BinCombo
+            // 
+            this.BinCombo.FormattingEnabled = true;
+            this.BinCombo.Location = new System.Drawing.Point(139, 93);
+            this.BinCombo.Name = "BinCombo";
+            this.BinCombo.Size = new System.Drawing.Size(48, 21);
+            this.BinCombo.TabIndex = 15;
+            // 
+            // SettingsButtonPanel
+            // 
+            this.SettingsButtonPanel.AutoSize = true;
+            this.SettingsButtonPanel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.SettingsButtonPanel.Controls.Add(this.SendSettingsButton);
+            this.SettingsButtonPanel.Controls.Add(this.ResetSettingsButton);
+            this.SettingsButtonPanel.Location = new System.Drawing.Point(6, 222);
+            this.SettingsButtonPanel.Name = "SettingsButtonPanel";
+            this.SettingsButtonPanel.Size = new System.Drawing.Size(204, 31);
+            this.SettingsButtonPanel.TabIndex = 9;
+            // 
+            // SendSettingsButton
+            // 
+            this.SendSettingsButton.Location = new System.Drawing.Point(3, 3);
+            this.SendSettingsButton.Name = "SendSettingsButton";
+            this.SendSettingsButton.Size = new System.Drawing.Size(96, 25);
+            this.SendSettingsButton.TabIndex = 7;
+            this.SendSettingsButton.Text = "Send Settings";
+            this.SendSettingsButton.UseVisualStyleBackColor = true;
+            this.SendSettingsButton.Click += new System.EventHandler(this.SendSettingsButton_Click);
+            // 
+            // ResetSettingsButton
+            // 
+            this.ResetSettingsButton.Location = new System.Drawing.Point(105, 3);
+            this.ResetSettingsButton.MinimumSize = new System.Drawing.Size(96, 25);
+            this.ResetSettingsButton.Name = "ResetSettingsButton";
+            this.ResetSettingsButton.Size = new System.Drawing.Size(96, 25);
+            this.ResetSettingsButton.TabIndex = 8;
+            this.ResetSettingsButton.Text = "Reset To Default";
+            this.ResetSettingsButton.UseVisualStyleBackColor = true;
+            // 
+            // FilterPanel
+            // 
+            this.FilterPanel.AutoSize = true;
+            this.FilterPanel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.FilterPanel.Controls.Add(this.A3TextBox);
+            this.FilterPanel.Controls.Add(this.A2TextBox);
+            this.FilterPanel.Controls.Add(this.A3Label);
+            this.FilterPanel.Controls.Add(this.A1TextBox);
+            this.FilterPanel.Controls.Add(this.A2Label);
+            this.FilterPanel.Controls.Add(this.A1Label);
+            this.FilterPanel.Controls.Add(this.FilterLabel);
+            this.FilterPanel.Location = new System.Drawing.Point(6, 176);
+            this.FilterPanel.Name = "FilterPanel";
+            this.FilterPanel.Size = new System.Drawing.Size(204, 40);
+            this.FilterPanel.TabIndex = 10;
+            // 
+            // A3TextBox
+            // 
+            this.A3TextBox.Location = new System.Drawing.Point(175, 17);
+            this.A3TextBox.Name = "A3TextBox";
+            this.A3TextBox.Size = new System.Drawing.Size(26, 20);
+            this.A3TextBox.TabIndex = 12;
+            // 
+            // A2TextBox
+            // 
+            this.A2TextBox.Location = new System.Drawing.Point(103, 17);
+            this.A2TextBox.Name = "A2TextBox";
+            this.A2TextBox.Size = new System.Drawing.Size(26, 20);
+            this.A2TextBox.TabIndex = 12;
+            // 
+            // A3Label
+            // 
+            this.A3Label.AutoSize = true;
+            this.A3Label.Location = new System.Drawing.Point(145, 20);
+            this.A3Label.Name = "A3Label";
+            this.A3Label.Size = new System.Drawing.Size(23, 13);
+            this.A3Label.TabIndex = 11;
+            this.A3Label.Text = "A3:";
+            // 
+            // A1TextBox
+            // 
+            this.A1TextBox.Location = new System.Drawing.Point(33, 17);
+            this.A1TextBox.Name = "A1TextBox";
+            this.A1TextBox.Size = new System.Drawing.Size(26, 20);
+            this.A1TextBox.TabIndex = 2;
+            // 
+            // A2Label
+            // 
+            this.A2Label.AutoSize = true;
+            this.A2Label.Location = new System.Drawing.Point(73, 20);
+            this.A2Label.Name = "A2Label";
+            this.A2Label.Size = new System.Drawing.Size(23, 13);
+            this.A2Label.TabIndex = 11;
+            this.A2Label.Text = "A2:";
+            // 
+            // A1Label
+            // 
+            this.A1Label.AutoSize = true;
+            this.A1Label.Location = new System.Drawing.Point(3, 20);
+            this.A1Label.Name = "A1Label";
+            this.A1Label.Size = new System.Drawing.Size(23, 13);
+            this.A1Label.TabIndex = 1;
+            this.A1Label.Text = "A1:";
+            // 
+            // FilterLabel
+            // 
+            this.FilterLabel.AutoSize = true;
+            this.FilterLabel.Location = new System.Drawing.Point(3, 0);
+            this.FilterLabel.Name = "FilterLabel";
+            this.FilterLabel.Size = new System.Drawing.Size(56, 13);
+            this.FilterLabel.TabIndex = 0;
+            this.FilterLabel.Text = "Filter Taps";
+            // 
+            // BinLabel
+            // 
+            this.BinLabel.AutoSize = true;
+            this.BinLabel.Location = new System.Drawing.Point(84, 96);
+            this.BinLabel.Name = "BinLabel";
+            this.BinLabel.Size = new System.Drawing.Size(48, 13);
+            this.BinLabel.TabIndex = 10;
+            this.BinLabel.Text = "Bin Size:";
+            // 
+            // Target1Combo
+            // 
+            this.Target1Combo.FormattingEnabled = true;
+            this.Target1Combo.Location = new System.Drawing.Point(111, 65);
+            this.Target1Combo.Name = "Target1Combo";
+            this.Target1Combo.Size = new System.Drawing.Size(48, 21);
+            this.Target1Combo.TabIndex = 14;
+            // 
+            // TargetLabel
+            // 
+            this.TargetLabel.AutoSize = true;
+            this.TargetLabel.Location = new System.Drawing.Point(11, 68);
+            this.TargetLabel.Name = "TargetLabel";
+            this.TargetLabel.Size = new System.Drawing.Size(99, 13);
+            this.TargetLabel.TabIndex = 10;
+            this.TargetLabel.Text = "Target Frequencies";
             // 
             // IdComboBox
             // 
@@ -255,6 +394,7 @@
             this.IdComboBox.Name = "IdComboBox";
             this.IdComboBox.Size = new System.Drawing.Size(48, 21);
             this.IdComboBox.TabIndex = 13;
+            this.IdComboBox.DropDown += new System.EventHandler(this.IdComboBox_DropDown);
             // 
             // IdLabel
             // 
@@ -271,7 +411,6 @@
             this.TotalTextBox.Name = "TotalTextBox";
             this.TotalTextBox.Size = new System.Drawing.Size(48, 20);
             this.TotalTextBox.TabIndex = 11;
-            this.TotalTextBox.TextChanged += new System.EventHandler(this.TotalTextBox_TextChanged);
             // 
             // TotalLabel
             // 
@@ -281,7 +420,6 @@
             this.TotalLabel.Size = new System.Drawing.Size(129, 13);
             this.TotalLabel.TabIndex = 10;
             this.TotalLabel.Text = "Total Number of Modems:";
-            this.TotalLabel.Click += new System.EventHandler(this.label2_Click);
             // 
             // SettingsLabel
             // 
@@ -291,205 +429,53 @@
             this.SettingsLabel.TabIndex = 0;
             this.SettingsLabel.Text = "Modem Settings";
             // 
-            // SendSettingsButton
+            // EnergyLabel
             // 
-            this.SendSettingsButton.Location = new System.Drawing.Point(3, 3);
-            this.SendSettingsButton.Name = "SendSettingsButton";
-            this.SendSettingsButton.Size = new System.Drawing.Size(96, 25);
-            this.SendSettingsButton.TabIndex = 7;
-            this.SendSettingsButton.Text = "Send Settings";
-            this.SendSettingsButton.UseVisualStyleBackColor = true;
+            this.EnergyLabel.AutoSize = true;
+            this.EnergyLabel.Location = new System.Drawing.Point(48, 124);
+            this.EnergyLabel.Name = "EnergyLabel";
+            this.EnergyLabel.Size = new System.Drawing.Size(84, 13);
+            this.EnergyLabel.TabIndex = 11;
+            this.EnergyLabel.Text = "Energy Bin Size:";
             // 
-            // ResetSettingsButton
+            // EnergyCombo
             // 
-            this.ResetSettingsButton.Location = new System.Drawing.Point(105, 3);
-            this.ResetSettingsButton.MinimumSize = new System.Drawing.Size(96, 25);
-            this.ResetSettingsButton.Name = "ResetSettingsButton";
-            this.ResetSettingsButton.Size = new System.Drawing.Size(96, 25);
-            this.ResetSettingsButton.TabIndex = 8;
-            this.ResetSettingsButton.Text = "Reset To Default";
-            this.ResetSettingsButton.UseVisualStyleBackColor = true;
+            this.EnergyCombo.FormattingEnabled = true;
+            this.EnergyCombo.Location = new System.Drawing.Point(139, 121);
+            this.EnergyCombo.Name = "EnergyCombo";
+            this.EnergyCombo.Size = new System.Drawing.Size(47, 21);
+            this.EnergyCombo.TabIndex = 16;
             // 
-            // SettingsButtonPanel
+            // GainCombo
             // 
-            this.SettingsButtonPanel.AutoSize = true;
-            this.SettingsButtonPanel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.SettingsButtonPanel.Controls.Add(this.SendSettingsButton);
-            this.SettingsButtonPanel.Controls.Add(this.ResetSettingsButton);
-            this.SettingsButtonPanel.Location = new System.Drawing.Point(6, 192);
-            this.SettingsButtonPanel.Name = "SettingsButtonPanel";
-            this.SettingsButtonPanel.Size = new System.Drawing.Size(204, 31);
-            this.SettingsButtonPanel.TabIndex = 9;
+            this.GainCombo.FormattingEnabled = true;
+            this.GainCombo.Location = new System.Drawing.Point(139, 149);
+            this.GainCombo.Name = "GainCombo";
+            this.GainCombo.Size = new System.Drawing.Size(46, 21);
+            this.GainCombo.TabIndex = 17;
             // 
-            // TargetLabel
+            // GainLabel
             // 
-            this.TargetLabel.AutoSize = true;
-            this.TargetLabel.Location = new System.Drawing.Point(38, 68);
-            this.TargetLabel.Name = "TargetLabel";
-            this.TargetLabel.Size = new System.Drawing.Size(94, 13);
-            this.TargetLabel.TabIndex = 10;
-            this.TargetLabel.Text = "Target Frequency:";
-            this.TargetLabel.Click += new System.EventHandler(this.TargetLabel_Click);
+            this.GainLabel.AutoSize = true;
+            this.GainLabel.Location = new System.Drawing.Point(68, 152);
+            this.GainLabel.Name = "GainLabel";
+            this.GainLabel.Size = new System.Drawing.Size(64, 13);
+            this.GainLabel.TabIndex = 18;
+            this.GainLabel.Text = "Digital Gain:";
             // 
-            // TargetCombo
+            // Target2Combo
             // 
-            this.TargetCombo.FormattingEnabled = true;
-            this.TargetCombo.Location = new System.Drawing.Point(139, 65);
-            this.TargetCombo.Name = "TargetCombo";
-            this.TargetCombo.Size = new System.Drawing.Size(48, 21);
-            this.TargetCombo.TabIndex = 14;
-            // 
-            // BinLabel
-            // 
-            this.BinLabel.AutoSize = true;
-            this.BinLabel.Location = new System.Drawing.Point(84, 96);
-            this.BinLabel.Name = "BinLabel";
-            this.BinLabel.Size = new System.Drawing.Size(48, 13);
-            this.BinLabel.TabIndex = 10;
-            this.BinLabel.Text = "Bin Size:";
-            // 
-            // BinCombo
-            // 
-            this.BinCombo.FormattingEnabled = true;
-            this.BinCombo.Location = new System.Drawing.Point(139, 93);
-            this.BinCombo.Name = "BinCombo";
-            this.BinCombo.Size = new System.Drawing.Size(48, 21);
-            this.BinCombo.TabIndex = 15;
-            // 
-            // FilterPanel
-            // 
-            this.FilterPanel.AutoSize = true;
-            this.FilterPanel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.FilterPanel.Controls.Add(this.B3TextBox);
-            this.FilterPanel.Controls.Add(this.B3Label);
-            this.FilterPanel.Controls.Add(this.B2TextBox);
-            this.FilterPanel.Controls.Add(this.B2Label);
-            this.FilterPanel.Controls.Add(this.B1TextBox);
-            this.FilterPanel.Controls.Add(this.LabelB1);
-            this.FilterPanel.Controls.Add(this.A3TextBox);
-            this.FilterPanel.Controls.Add(this.A2TextBox);
-            this.FilterPanel.Controls.Add(this.A3Label);
-            this.FilterPanel.Controls.Add(this.A1TextBox);
-            this.FilterPanel.Controls.Add(this.A2Label);
-            this.FilterPanel.Controls.Add(this.A1Label);
-            this.FilterPanel.Controls.Add(this.FilterLabel);
-            this.FilterPanel.Location = new System.Drawing.Point(6, 120);
-            this.FilterPanel.Name = "FilterPanel";
-            this.FilterPanel.Size = new System.Drawing.Size(204, 66);
-            this.FilterPanel.TabIndex = 10;
-            // 
-            // FilterLabel
-            // 
-            this.FilterLabel.AutoSize = true;
-            this.FilterLabel.Location = new System.Drawing.Point(3, 0);
-            this.FilterLabel.Name = "FilterLabel";
-            this.FilterLabel.Size = new System.Drawing.Size(56, 13);
-            this.FilterLabel.TabIndex = 0;
-            this.FilterLabel.Text = "Filter Taps";
-            // 
-            // A1Label
-            // 
-            this.A1Label.AutoSize = true;
-            this.A1Label.Location = new System.Drawing.Point(3, 20);
-            this.A1Label.Name = "A1Label";
-            this.A1Label.Size = new System.Drawing.Size(23, 13);
-            this.A1Label.TabIndex = 1;
-            this.A1Label.Text = "A1:";
-            // 
-            // A1TextBox
-            // 
-            this.A1TextBox.Location = new System.Drawing.Point(33, 17);
-            this.A1TextBox.Name = "A1TextBox";
-            this.A1TextBox.Size = new System.Drawing.Size(26, 20);
-            this.A1TextBox.TabIndex = 2;
-            // 
-            // A2TextBox
-            // 
-            this.A2TextBox.Location = new System.Drawing.Point(103, 17);
-            this.A2TextBox.Name = "A2TextBox";
-            this.A2TextBox.Size = new System.Drawing.Size(26, 20);
-            this.A2TextBox.TabIndex = 12;
-            // 
-            // A2Label
-            // 
-            this.A2Label.AutoSize = true;
-            this.A2Label.Location = new System.Drawing.Point(73, 20);
-            this.A2Label.Name = "A2Label";
-            this.A2Label.Size = new System.Drawing.Size(23, 13);
-            this.A2Label.TabIndex = 11;
-            this.A2Label.Text = "A2:";
-            // 
-            // A3TextBox
-            // 
-            this.A3TextBox.Location = new System.Drawing.Point(175, 17);
-            this.A3TextBox.Name = "A3TextBox";
-            this.A3TextBox.Size = new System.Drawing.Size(26, 20);
-            this.A3TextBox.TabIndex = 12;
-            this.A3TextBox.TextChanged += new System.EventHandler(this.A3TextBox_TextChanged);
-            // 
-            // A3Label
-            // 
-            this.A3Label.AutoSize = true;
-            this.A3Label.Location = new System.Drawing.Point(145, 20);
-            this.A3Label.Name = "A3Label";
-            this.A3Label.Size = new System.Drawing.Size(23, 13);
-            this.A3Label.TabIndex = 11;
-            this.A3Label.Text = "A3:";
-            this.A3Label.Click += new System.EventHandler(this.A3Label_Click);
-            // 
-            // B1TextBox
-            // 
-            this.B1TextBox.Location = new System.Drawing.Point(33, 43);
-            this.B1TextBox.Name = "B1TextBox";
-            this.B1TextBox.Size = new System.Drawing.Size(26, 20);
-            this.B1TextBox.TabIndex = 14;
-            // 
-            // LabelB1
-            // 
-            this.LabelB1.AutoSize = true;
-            this.LabelB1.Location = new System.Drawing.Point(3, 46);
-            this.LabelB1.Name = "LabelB1";
-            this.LabelB1.Size = new System.Drawing.Size(23, 13);
-            this.LabelB1.TabIndex = 13;
-            this.LabelB1.Text = "B1:";
-            // 
-            // B2TextBox
-            // 
-            this.B2TextBox.Location = new System.Drawing.Point(103, 43);
-            this.B2TextBox.Name = "B2TextBox";
-            this.B2TextBox.Size = new System.Drawing.Size(26, 20);
-            this.B2TextBox.TabIndex = 16;
-            // 
-            // B2Label
-            // 
-            this.B2Label.AutoSize = true;
-            this.B2Label.Location = new System.Drawing.Point(73, 46);
-            this.B2Label.Name = "B2Label";
-            this.B2Label.Size = new System.Drawing.Size(23, 13);
-            this.B2Label.TabIndex = 15;
-            this.B2Label.Text = "B2:";
-            // 
-            // B3TextBox
-            // 
-            this.B3TextBox.Location = new System.Drawing.Point(175, 43);
-            this.B3TextBox.Name = "B3TextBox";
-            this.B3TextBox.Size = new System.Drawing.Size(26, 20);
-            this.B3TextBox.TabIndex = 16;
-            // 
-            // B3Label
-            // 
-            this.B3Label.AutoSize = true;
-            this.B3Label.Location = new System.Drawing.Point(145, 46);
-            this.B3Label.Name = "B3Label";
-            this.B3Label.Size = new System.Drawing.Size(23, 13);
-            this.B3Label.TabIndex = 15;
-            this.B3Label.Text = "B3:";
+            this.Target2Combo.FormattingEnabled = true;
+            this.Target2Combo.Location = new System.Drawing.Point(164, 65);
+            this.Target2Combo.Name = "Target2Combo";
+            this.Target2Combo.Size = new System.Drawing.Size(48, 21);
+            this.Target2Combo.TabIndex = 15;
             // 
             // AcousticModemForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(505, 343);
+            this.ClientSize = new System.Drawing.Size(505, 367);
             this.Controls.Add(this.MessagePanel);
             this.Controls.Add(this.panel4);
             this.Controls.Add(this.ConnectionPanel);
@@ -538,16 +524,10 @@
         private System.Windows.Forms.Label IdLabel;
         private System.Windows.Forms.Label TargetLabel;
         private System.Windows.Forms.ComboBox IdComboBox;
-        private System.Windows.Forms.ComboBox TargetCombo;
+        private System.Windows.Forms.ComboBox Target1Combo;
         private System.Windows.Forms.ComboBox BinCombo;
         private System.Windows.Forms.Label BinLabel;
         private System.Windows.Forms.Panel FilterPanel;
-        private System.Windows.Forms.TextBox B3TextBox;
-        private System.Windows.Forms.Label B3Label;
-        private System.Windows.Forms.TextBox B2TextBox;
-        private System.Windows.Forms.Label B2Label;
-        private System.Windows.Forms.TextBox B1TextBox;
-        private System.Windows.Forms.Label LabelB1;
         private System.Windows.Forms.TextBox A3TextBox;
         private System.Windows.Forms.TextBox A2TextBox;
         private System.Windows.Forms.Label A3Label;
@@ -555,6 +535,11 @@
         private System.Windows.Forms.Label A2Label;
         private System.Windows.Forms.Label A1Label;
         private System.Windows.Forms.Label FilterLabel;
+        private System.Windows.Forms.Label GainLabel;
+        private System.Windows.Forms.ComboBox GainCombo;
+        private System.Windows.Forms.ComboBox EnergyCombo;
+        private System.Windows.Forms.Label EnergyLabel;
+        private System.Windows.Forms.ComboBox Target2Combo;
     }
 }
 
