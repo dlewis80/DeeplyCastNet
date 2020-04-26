@@ -77,7 +77,7 @@ namespace AcousticModem
         {
             string existing = serialPort1.ReadExisting();
 
-            if (sendSettings && existing == "0")
+            if (sendingSettings && existing == "0")
             {
                 messageRecieved = true;
                 return;
