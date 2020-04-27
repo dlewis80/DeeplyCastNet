@@ -27,7 +27,7 @@ while length(in)>=3
             in(1) = [];
         end
         
-    % currently assembling message
+        % currently assembling message
     elseif dv
         triplet = in([1:3]);
         if length(find(triplet==1))>1
@@ -40,4 +40,8 @@ while length(in)>=3
         end
         in([1:3]) = [];
     end
+end
+if isempty(out)
+    out = {'no detection'};
+end
 end

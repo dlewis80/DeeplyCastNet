@@ -1,4 +1,4 @@
-function [msg_out,out] = modem_ctrl_tx(in,filename)
+function [msg_out,out0,out1] = modem_ctrl_tx(in,filename)
 
 % This function acts as the transmit firmware for the modem. It takes an
 % input string, adds a timestamp to the front of it, and converts it to 12
@@ -26,14 +26,17 @@ fclose(fp);
 % appears 3 times in a row) scaled to 3.3V, 12 bit messages
 tic
 msg_out = [dec2bin(round(mod(toc*100,2^ts_bits)),ts_bits),in]; % timestamp
-out = [];
+out1 = [];
+out0 = [];
 for i = 1:length(msg_out)
     start_ndx = (((i-1)*3*N_a)+1);
     t = [start_ndx:start_ndx+3*N_a-1]./fs;
     if msg_out(i) == '0'
-        out = [out, round(sin(2*pi*ft_a.*t).*3.3.*(2^12))];
+        out0 = [out0, round(sin(2*pi*ft_a.*t).*3.3.*(2^12))];
+        out1 = [out1, round(sin(2*pi*0.*t).*3.3.*(2^12))];
     elseif msg_out(i) == '1'
-        out = [out, round(sin(2*pi*ft_b.*t).*3.3.*(2^12))];
+        out0 = [out0, round(sin(2*pi*0.*t).*3.3.*(2^12))];
+        out1 = [out1, round(sin(2*pi*ft_b.*t).*3.3.*(2^12))];
     end
 end
 
