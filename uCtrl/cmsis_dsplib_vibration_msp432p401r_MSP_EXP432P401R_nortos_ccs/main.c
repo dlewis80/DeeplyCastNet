@@ -127,7 +127,7 @@ int main(void)
     MAP_CS_initClockSignal(CS_ACLK, CS_REFOCLK_SELECT, CS_CLOCK_DIVIDER_1);
 
     /* Setting reference voltage to 2.5  and enabling reference */
-    MAP_REF_A_setReferenceVoltage(REF_A_VREF1_2V);
+    MAP_REF_A_setReferenceVoltage(REF_A_VREF2_5V);
     MAP_REF_A_enableReferenceVoltage();
 
     /* Enabling the FPU for floating point operation */
@@ -144,7 +144,10 @@ int main(void)
     GPIO_TERTIARY_MODULE_FUNCTION);
 
     /* Configuring P5.4 as output (transmit) */
-        MAP_GPIO_setAsOutputPin(GPIO_PORT_P5, GPIO_PIN4);
+    MAP_GPIO_setAsOutputPin(GPIO_PORT_P4, GPIO_PIN5);
+    MAP_GPIO_setAsOutputPin(GPIO_PORT_P5, GPIO_PIN4);
+    /* Configuring P4.7 as output (relay) */
+    MAP_GPIO_setAsOutputPin(GPIO_PORT_P4, GPIO_PIN7);
 
     /* Selecting P1.2 and P1.3 in UART mode */
     MAP_GPIO_setAsPeripheralModuleFunctionInputPin(
@@ -213,6 +216,7 @@ void ADC14_IRQHandler(void)
     if (!transmit)
     {
         uint64_t status;
+        GPIO_setOutputLowOnPin(GPIO_PORT_P4, GPIO_PIN7);
 
         status = MAP_ADC14_getEnabledInterruptStatus();
         MAP_ADC14_clearInterruptFlag(status);
@@ -268,6 +272,7 @@ void ADC14_IRQHandler(void)
     }
     else
     {
+        GPIO_setOutputHighOnPin(GPIO_PORT_P4, GPIO_PIN7);
         if (byte_counter < message_length)
         {
             if (repeat_counter >= bin_size)
@@ -285,11 +290,14 @@ void ADC14_IRQHandler(void)
             if (lbit > 0)
             {
                 GPIO_setOutputHighOnPin(GPIO_PORT_P5, GPIO_PIN4);
+                GPIO_setOutputLowOnPin(GPIO_PORT_P4, GPIO_PIN5);
             }
             else
             {
                 GPIO_setOutputLowOnPin(GPIO_PORT_P5, GPIO_PIN4);
+                GPIO_setOutputHighOnPin(GPIO_PORT_P4, GPIO_PIN5);
             }
+            repeat_counter++;
 
         }
         else
