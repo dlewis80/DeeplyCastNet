@@ -22,7 +22,7 @@
  *            |     P1.7/UCB0SCL|<-+------>|P1.7/UCB0SCL     |
  *            |                 |          |                 |
 
-/* Timer_A Continuous Mode Configuration Parameter */
+ /* Timer_A Continuous Mode Configuration Parameter */
 const Timer_A_UpModeConfig upModeConfig = {
 TIMER_A_CLOCKSOURCE_SMCLK,            // ACLK Clock Source
         TIMER_A_CLOCKSOURCE_DIVIDER_1,       // ACLK/1 = 24Mhz
@@ -61,21 +61,6 @@ EUSCI_A_UART_CLOCKSOURCE_SMCLK,          // SMCLK Clock Source
         EUSCI_A_UART_8_BIT_LEN                  // 8 bit data length
         };
 
-/* I2C Master Configuration Parameter */
-const eUSCI_I2C_MasterConfig i2cConfig = {
-EUSCI_B_I2C_CLOCKSOURCE_SMCLK,          // SMCLK Clock Source
-        24000000,                                // SMCLK = 3MHz
-        EUSCI_B_I2C_SET_DATA_RATE_400KBPS,      // Desired I2C Clock of 400khz
-        0,                                      // No byte counter threshold
-        EUSCI_B_I2C_NO_AUTO_STOP                // No Autostop
-        };
-
-typedef struct
-{
-    uint8_t upper_byte :8;
-    uint8_t lower_byte :8;
-} DAC_DATA;
-
 /* Statics */
 
 static uint_fast16_t ADCresultsBuffer[UINT8_MAX * 2];
@@ -95,8 +80,7 @@ uint32_t byte_counter;
 uint32_t repeat_counter;
 uint32_t message_length;
 char receive_data;
-bool sendUpperByte;
-uint16_t transmit_data;
+
 static volatile bool transmit;
 int bin_size = 64;
 int digital_gain = 80;
@@ -106,9 +90,6 @@ static char serial_data[UINT8_MAX];
 static char message[UINT8_MAX];
 char first_digit;
 char second_digit;
-/* Slave Address for DAC Slave */
-#define SLAVE_ADDRESS 0x0F
-#define COMMAND_BYTE 0x47
 
 uint32_t targetFrequency1;
 uint32_t targetFrequency2;
@@ -129,7 +110,6 @@ int main(void)
     bit_counter = 0;
     receive_data = 0;
     transmit = false;
-    sendUpperByte = true;
     MAP_Interrupt_disableMaster();
 
     /* Set the core voltage level to VCORE1 */
@@ -163,35 +143,14 @@ int main(void)
     MAP_GPIO_setAsPeripheralModuleFunctionInputPin(GPIO_PORT_P5, GPIO_PIN5,
     GPIO_TERTIARY_MODULE_FUNCTION);
 
+    /* Configuring P5.4 as output (transmit) */
+        MAP_GPIO_setAsOutputPin(GPIO_PORT_P5, GPIO_PIN4);
+
     /* Selecting P1.2 and P1.3 in UART mode */
     MAP_GPIO_setAsPeripheralModuleFunctionInputPin(
             GPIO_PORT_P1,
             GPIO_PIN2 | GPIO_PIN3,
             GPIO_PRIMARY_MODULE_FUNCTION);
-
-    /* Select Port 1 for I2C - Set Pin 6, 7 to input Primary Module Function,
-     *   (UCB0SIMO/UCB0SDA, UCB0SOMI/UCB0SCL).
-     */
-    MAP_GPIO_setAsPeripheralModuleFunctionInputPin(
-            GPIO_PORT_P1,
-            GPIO_PIN6 + GPIO_PIN7,
-            GPIO_PRIMARY_MODULE_FUNCTION);
-
-    /* Initializing I2C Master to SMCLK at 400kbs with no autostop */
-    MAP_I2C_initMaster(EUSCI_B0_BASE, &i2cConfig);
-
-    /* Specify slave address */
-    MAP_I2C_setSlaveAddress(EUSCI_B0_BASE, SLAVE_ADDRESS);
-
-    /* Set Master in transmit mode */
-    MAP_I2C_setMode(EUSCI_B0_BASE, EUSCI_B_I2C_TRANSMIT_MODE);
-
-    /* Enable I2C Module to start operations */
-    MAP_I2C_enableModule(EUSCI_B0_BASE);
-
-    /*clear the interrupt flag */
-    MAP_I2C_clearInterruptFlag(EUSCI_B0_BASE,
-    EUSCI_B_I2C_TRANSMIT_INTERRUPT0 + EUSCI_B_I2C_NAK_INTERRUPT);
 
     /* Configuring ADC Memory */
     MAP_ADC14_configureSingleSampleMode(ADC_MEM0, true);
@@ -244,16 +203,6 @@ int main(void)
     while (1)
     {
         test = test + 1;
-        if (transmit)
-        {
-
-            while (MAP_I2C_masterIsStopSent(EUSCI_B0_BASE)
-                    == EUSCI_B_I2C_SENDING_STOP)
-                ;
-
-            /* Sending the initial start condition */
-            MAP_I2C_masterSendMultiByteStart(EUSCI_B0_BASE, COMMAND_BYTE);
-        }
     }
 }
 
@@ -261,56 +210,95 @@ int main(void)
  * ADC_MEM0 */
 void ADC14_IRQHandler(void)
 {
-    uint64_t status;
-
-    status = MAP_ADC14_getEnabledInterruptStatus();
-    MAP_ADC14_clearInterruptFlag(status);
-
-    if (status & ADC_INT0)
+    if (!transmit)
     {
-        if (resPos == bin_size)
+        uint64_t status;
+
+        status = MAP_ADC14_getEnabledInterruptStatus();
+        MAP_ADC14_clearInterruptFlag(status);
+
+        if (status & ADC_INT0)
         {
-            counter = Timer_A_getCounterValue(TIMER_A0_BASE);
-
-            resPos = 0;
-            arm_cfft_q15(&arm_cfft_sR_q15_len512, (q15_t *) ADCresultsBuffer,
-                         ifftFlag, doBitReverse);
-            arm_cmplx_mag_q15((q15_t *) ADCresultsBuffer, (q15_t *) fftOutput,
-                              UINT8_MAX);
-
-            smclk = Timer_A_getCounterValue(TIMER_A0_BASE);
-            int n = 0;
-            resultl = 0;
-            resulth = 0;
-            for (n = 0; n < 2 * ENERGYBIN_SIZE; n++)
+            if (resPos == bin_size)
             {
-                resultl = resultl + fftOutput[indexl - ENERGYBIN_SIZE + n];
-                resulth = resulth + fftOutput[indexh - ENERGYBIN_SIZE + n];
+                counter = Timer_A_getCounterValue(TIMER_A0_BASE);
+
+                resPos = 0;
+                arm_cfft_q15(&arm_cfft_sR_q15_len512,
+                             (q15_t *) ADCresultsBuffer, ifftFlag,
+                             doBitReverse);
+                arm_cmplx_mag_q15((q15_t *) ADCresultsBuffer,
+                                  (q15_t *) fftOutput, UINT8_MAX);
+
+                smclk = Timer_A_getCounterValue(TIMER_A0_BASE);
+                int n = 0;
+                resultl = 0;
+                resulth = 0;
+                for (n = 0; n < 2 * ENERGYBIN_SIZE; n++)
+                {
+                    resultl = resultl + fftOutput[indexl - ENERGYBIN_SIZE + n];
+                    resulth = resulth + fftOutput[indexh - ENERGYBIN_SIZE + n];
+                }
+
+                if ((resulth > 50) & (resulth > resultl))
+                {
+                    receive_data = (receive_data | (1 << bit_counter));
+
+                    bit_counter = bit_counter + 1;
+                }
+
+                if ((resultl > 50) & (resultl > resulth))
+                {
+                    bit_counter = bit_counter + 1;
+                }
+
+                if (bit_counter == 8)
+                {
+                    bit_counter = 0;
+                    MAP_UART_transmitData(EUSCI_A0_BASE, receive_data);
+                    receive_data = 0;
+                }
+                time = smclk - counter;
+                memset(ADCresultsBuffer, 0, sizeof(ADCresultsBuffer));
             }
 
-            if ((resulth > 50) & (resulth > resultl))
-            {
-                receive_data = (receive_data | (1 << bit_counter));
-
-                bit_counter = bit_counter + 1;
-            }
-
-            if ((resultl > 50) & (resultl > resulth))
-            {
-                bit_counter = bit_counter + 1;
-            }
-
-            if (bit_counter == 8)
-            {
-                bit_counter = 0;
-                MAP_UART_transmitData(EUSCI_A0_BASE, receive_data);
-                receive_data = 0;
-            }
-            time = smclk - counter;
+            ADCresultsBuffer[resPos++] = MAP_ADC14_getResult(ADC_MEM0)
+                    * digital_gain;
         }
+    }
+    else
+    {
+        if (byte_counter < message_length)
+        {
+            if (repeat_counter >= bin_size)
+            {
+                bit_counter++;
+                repeat_counter = 0;
+                if (bit_counter >= 8)
+                {
+                    bit_counter = 0;
+                    byte_counter++;
+                }
+            }
+            int lbit = message[byte_counter] & (1 << bit_counter);
 
-        ADCresultsBuffer[resPos++] = MAP_ADC14_getResult(ADC_MEM0)
-                * digital_gain;
+            if (lbit > 0)
+            {
+                GPIO_setOutputHighOnPin(GPIO_PORT_P5, GPIO_PIN4);
+            }
+            else
+            {
+                GPIO_setOutputLowOnPin(GPIO_PORT_P5, GPIO_PIN4);
+            }
+
+        }
+        else
+        {
+            byte_counter = 0;
+            bit_counter = 0;
+            repeat_counter = 0;
+            transmit = false;
+        }
     }
 
 }
@@ -345,10 +333,6 @@ void EUSCIA0_IRQHandler(void)
             {
             case '1':
             {
-                MAP_Interrupt_enableInterrupt(INT_ADC14);
-                MAP_I2C_disableInterrupt(EUSCI_B0_BASE,
-                EUSCI_B_I2C_TRANSMIT_INTERRUPT0 + EUSCI_B_I2C_NAK_INTERRUPT);
-                MAP_Interrupt_disableInterrupt(INT_EUSCIB0);
                 int i = 0;
                 memset(message, 0, sizeof(message));
                 for (i = 2; i < serialPos - 1; i++)
@@ -368,19 +352,23 @@ void EUSCIA0_IRQHandler(void)
                 {
                     targetFrequency2 = atoi(message);
                     indexh = floor(512 * (targetFrequency2) / SAMPLING_RATE);
+                    break;
 
                 }
                 case '4':
                 {
                     bin_size = atoi(message);
+                    break;
                 }
                 case '5':
                 {
                     ENERGYBIN_SIZE = atoi(message);
+                    break;
                 }
                 case '6':
                 {
                     digital_gain = atoi(message);
+                    break;
                 }
 
                 default:
@@ -390,27 +378,28 @@ void EUSCIA0_IRQHandler(void)
             }
             case '0':
             {
-                MAP_Interrupt_disableInterrupt(INT_ADC14);
-                MAP_I2C_enableInterrupt(EUSCI_B0_BASE,
-                EUSCI_B_I2C_TRANSMIT_INTERRUPT0 + EUSCI_B_I2C_NAK_INTERRUPT);
-                MAP_Interrupt_enableInterrupt(INT_EUSCIB0);
+
                 transmit = true;
                 uint8_t n = 0;
                 memset(message, 0, sizeof(message));
                 for (n = 2; n < serialPos - 1; n++)
                 {
                     message[n - 2] = serial_data[n];
+
                 }
+                memset(ADCresultsBuffer, 0, sizeof(ADCresultsBuffer));
+                resPos = 0;
                 break;
             }
             default:
-                MAP_Interrupt_enableInterrupt(INT_ADC14);
+                break;
             }
 
             MAP_UART_transmitData(EUSCI_A0_BASE, '0');
             message_length = serialPos - 3;
             bit_counter = 0;
             byte_counter = 0;
+            repeat_counter = 0;
 
             serialPos = 0;
 
@@ -421,81 +410,3 @@ void EUSCIA0_IRQHandler(void)
 
 }
 
-//I2C interrupt
-void EUSCIB0_IRQHandler(void)
-{
-    uint_fast16_t status;
-
-    status = MAP_I2C_getEnabledInterruptStatus(EUSCI_B0_BASE);
-
-    if (status & EUSCI_B_I2C_NAK_INTERRUPT)
-    {
-        MAP_I2C_masterSendStart(EUSCI_B0_BASE);
-    }
-
-    if (status & EUSCI_B_I2C_TRANSMIT_INTERRUPT0)
-    {
-        if (byte_counter < message_length)
-        {
-            if (repeat_counter >= UINT8_MAX)
-            {
-                bit_counter++;
-                repeat_counter = 0;
-                if (bit_counter >= 8)
-                {
-                    bit_counter = 0;
-                    byte_counter++;
-                }
-            }
-            uint16_t temp = 0;
-            /* Get the bit and send it */
-            if (sendUpperByte)
-            {
-                int lbit = message[byte_counter] & (1 << bit_counter);
-
-                if (lbit > 0)
-                {
-                    transmit_data = floor(
-                            sin(2 * 3.14 * targetFrequency1 * repeat_counter
-                                    / 400000) * 4095);
-                }
-                else
-                {
-                    transmit_data = floor(
-                            sin(2 * 3.14 * targetFrequency2 * repeat_counter
-                                    / 400000) * 4095);
-                }
-
-                transmit_data = transmit_data << 4;
-                temp = transmit_data;
-                temp = temp >> 8;
-                MAP_I2C_masterSendMultiByteNext(EUSCI_B0_BASE, (char) temp);
-                sendUpperByte = false;
-            }
-            else
-            {
-                //MAP_I2C_masterSendMultiByteNext(EUSCI_B0_BASE,
-                // transmit_data.lower_byte);
-                temp = transmit_data;
-                temp = temp << 8;
-                temp = temp >> 8;
-                MAP_I2C_masterSendMultiByteNext(EUSCI_B0_BASE, (char) temp);
-                sendUpperByte = true;
-            }
-            repeat_counter++;
-        }
-        else
-        {
-            byte_counter = 0;
-            bit_counter = 0;
-            repeat_counter = 0;
-            sendUpperByte = true;
-            MAP_I2C_masterSendMultiByteStop(EUSCI_B0_BASE);
-            transmit = false;
-            MAP_Interrupt_enableInterrupt(INT_ADC14);
-            MAP_I2C_disableInterrupt(EUSCI_B0_BASE,
-            EUSCI_B_I2C_TRANSMIT_INTERRUPT0 + EUSCI_B_I2C_NAK_INTERRUPT);
-            MAP_Interrupt_disableInterrupt(INT_EUSCIB0);
-        }
-    }
-}
