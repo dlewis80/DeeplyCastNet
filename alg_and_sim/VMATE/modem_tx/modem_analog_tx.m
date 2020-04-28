@@ -24,8 +24,8 @@ classD_out0 = dac_out0.*(30./3.3);
 classD_out1 = dac_out1.*(30./3.3);
 
 %% Transducer model
-% Assume constant TVR 143dB V/uPa in narrow frequency band
-out0 = classD_out0*10^(143/20);
-out1 = classD_out1*10^(143/20);
+% Assume constant TVR 150dB V/uPa in narrow frequency band
+out0 = classD_out0*10^(150/20);
+out1 = classD_out1*10^(150/20);
 
 end

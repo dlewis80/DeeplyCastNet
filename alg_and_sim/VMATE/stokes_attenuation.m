@@ -1,4 +1,4 @@
-function out = stokes_attenuation(in0,in1,fs,distances,freqs)
+function out = stokes_attenuation(in0,in1,fs,distances,freqs,snr)
 
 % This is a very simple model of sound attenuation in a fluid. It is not an
 % ocean acoustics model. Ideally this will be replaced later on, but for
@@ -34,4 +34,8 @@ for i = 1:length(alphas)
         end
     end
 end
+assignin('base','gain_mat',gain_mat)
 out = sum(out);
+
+noise_level = rms(out)*(10^(-snr/20));
+out = out+(noise_level.*rand(1,1,length(out)));

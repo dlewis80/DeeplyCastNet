@@ -12,6 +12,7 @@ function out = modem_dsp_hpf(in,path)
 % out = filtered data
 
 load(path)
-out = filter(Num,Den,in);
+%out = filter(Num,Den,in);
+out = in;
 
 end

@@ -26,7 +26,7 @@ ADC_in = amp_out;
 clip_mask = ADC_in>3.3;
 ADC_in(clip_mask) = 3.3;
 if sum(clip_mask)>0
-    disp('Clipping present for next test case')
+    disp('Clipping present for this test case')
 end
 
 % ADC
