@@ -1,25 +1,29 @@
-% This script runs the modem transmitter directly into the modem receiver
-% to verify compatability
-
+% This script runs VMATE. It is fed by several text files listed in
+% VMATE_default.txt
 clear
 clc
-
-addpath('modem_rx')
+addpath('modem')
 addpath('modem_tx')
+addpath('modem_rx')
+addpath('propagation')
+addpath('propagation\stokes')
 
+% What should be in text files
+modem_filename = 'default_modem.txt';
+stokes_filename = 'default_propagation.txt';
+
+% Generate random input of proper size
 in = num2str(round(rand(1,145)));
 in(isspace(in)) = [];
 
-filename = 'default_modem_tx.txt';
-[tx_out0,tx_out1,msg_out] = MASTER_modem_tx(in,filename);
+[tx_out0,tx_out1,msg_out] = MASTER_modem_tx(in,modem_filename);
 
 prop_out = stokes_attenuation(tx_out0,tx_out1,100000,[300,400,700,950],[27000,22000],inf);
 [r,c,d] = size(prop_out);
 
-filename = 'default_modem_rx.txt';
 out = [];
     for j = 1:c
-        out = MASTER_modem_rx(squeeze(prop_out(1,j,:))',filename);
+        out = MASTER_modem_rx(squeeze(prop_out(1,j,:))',modem_filename);
         status = strcmp(msg_out,out{1}(15:end));
         if status
             fprintf("Receiver %i success\n\n",j)

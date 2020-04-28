@@ -13,18 +13,24 @@ function [msg_out,out0,out1] = modem_ctrl_tx(in,filename)
 % out0: vector of data to send to DAC containing '0' data
 % out1: vector of data to send to DAC containing '1' data
 
-% Import transmitter parameters
+%% Parameter Read
+
+% Read in transmit parameters 
 fp = fopen(filename,'r');
 fs = str2double(strtok(fgets(fp),' '));
+hpf_path = strtok(fgets(fp),' ');
 ft_a = str2double(strtok(fgets(fp),' '));
 N_a = str2double(strtok(fgets(fp),' '));
 ft_b = str2double(strtok(fgets(fp),' '));
 N_b = str2double(strtok(fgets(fp),' '));
+thresh_a = str2double(strtok(fgets(fp),' '));
+thresh_b = str2double(strtok(fgets(fp),' '));
 ts_bits = str2double(strtok(fgets(fp),' '));
 fclose(fp);
 
-% Generate message. Note that messages are sent as triplets (each bit
-% appears 3 times in a row) at 12 bit precision for the DAC
+%% Generate message
+% Note that messages are sent as triplets (each bit appears 3 times in a 
+% row) at 12 bit precision for the DAC
 tic
 msg_out = [dec2bin(round(mod(toc*100,2^ts_bits)),ts_bits),in]; % timestamp
 out1 = [];
