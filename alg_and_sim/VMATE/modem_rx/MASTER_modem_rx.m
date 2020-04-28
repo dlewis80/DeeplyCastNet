@@ -9,14 +9,10 @@ function out = MASTER_modem_rx(in,filename)
 
 % Outputs:
 % out: received message with received timestamp added to front
-%% Analog Model
 
-% To be done later
-in = modem_analog_rx(in);
+%% Parameter Read
 
-%% Firmware Model
-
-% Read in firmware parameters 
+% Read in transmit parameters 
 fp = fopen(filename,'r');
 fs = str2double(strtok(fgets(fp),' '));
 hpf_path = strtok(fgets(fp),' ');
@@ -29,8 +25,15 @@ thresh_b = str2double(strtok(fgets(fp),' '));
 ts_bits = str2double(strtok(fgets(fp),' '));
 fclose(fp);
 
+%% Analog Model
+
+analog_out = modem_analog_rx(in,fs);
+assignin('base','analog_rx',analog_out)
+
+%% Firmware Model
+
 % Execute Firmware
-hpf_out = modem_dsp_hpf(in,hpf_path);
+hpf_out = modem_dsp_hpf(analog_out,hpf_path);
 assignin('base','hpf_out',hpf_out)
 goertzel_out_a = modem_dsp_goertzel(hpf_out,fs,ft_a,N_a);
 assignin('base','goertzel_out_a',goertzel_out_a)

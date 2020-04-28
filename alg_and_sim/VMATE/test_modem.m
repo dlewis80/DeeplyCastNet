@@ -7,12 +7,12 @@ clc
 addpath('modem_rx')
 addpath('modem_tx')
 
-in = '00110101';
+in = num2str('11001010');
 
 filename = 'default_modem_tx.txt';
 [tx_out0,tx_out1,msg_out] = MASTER_modem_tx(in,filename);
 
-prop_out = stokes_attenuation(tx_out0,tx_out1,100000,[85,86,240],[27000,22000]);
+prop_out = stokes_attenuation(tx_out0,tx_out1,100000,[100,500,1000],[27000,22000]);
 [r,c,d] = size(prop_out);
 
 filename = 'default_modem_rx.txt';
