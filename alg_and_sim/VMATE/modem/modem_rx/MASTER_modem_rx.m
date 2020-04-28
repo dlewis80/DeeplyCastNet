@@ -17,9 +17,8 @@ fp = fopen(filename,'r');
 fs = str2double(strtok(fgets(fp),' '));
 hpf_path = strtok(fgets(fp),' ');
 ft_a = str2double(strtok(fgets(fp),' '));
-N_a = str2double(strtok(fgets(fp),' '));
 ft_b = str2double(strtok(fgets(fp),' '));
-N_b = str2double(strtok(fgets(fp),' '));
+N = str2double(strtok(fgets(fp),' '));
 thresh_a = str2double(strtok(fgets(fp),' '));
 thresh_b = str2double(strtok(fgets(fp),' '));
 ts_bits = str2double(strtok(fgets(fp),' '));
@@ -35,9 +34,9 @@ assignin('base','analog_rx',analog_out)
 % Execute Firmware
 hpf_out = modem_dsp_hpf(analog_out,hpf_path);
 assignin('base','hpf_out',hpf_out)
-goertzel_out_a = modem_dsp_goertzel(hpf_out,fs,ft_a,N_a);
+goertzel_out_a = modem_dsp_goertzel(hpf_out,fs,ft_a,N);
 assignin('base','goertzel_out_a',goertzel_out_a)
-goertzel_out_b = modem_dsp_goertzel(hpf_out,fs,ft_b,N_b);
+goertzel_out_b = modem_dsp_goertzel(hpf_out,fs,ft_b,N);
 assignin('base','goertzel_out_b',goertzel_out_b)
 decision = modem_dsp_decision_circuit(goertzel_out_a,thresh_a,goertzel_out_b,thresh_b);
 assignin('base','decision',decision)

@@ -1,4 +1,4 @@
-function out = stokes_attenuation(in0,in1,fs,distances,freqs,snr)
+function out = stokes_attenuation(in0,in1,prop_filename)
 
 % This is a very simple model of sound attenuation in a fluid. It is not an
 % ocean acoustics model. Ideally this will be replaced later on, but for
@@ -9,6 +9,13 @@ function out = stokes_attenuation(in0,in1,fs,distances,freqs,snr)
 eta = 1.72; % dynamic viscosity coefficient of water near freezing
 rho = 997; % density water
 V = 1500; % speed of sound in water (average)
+
+% Input parameters
+fp = fopen(prop_filename);
+fs = str2double(strtok(fgets(fp),' '));
+distances = eval(strtok(fgets(fp),' '));
+freqs = eval(strtok(fgets(fp),' '));
+fclose(fp)
 
 % Adjust for delay
 delay = round(distances/V*fs); 
@@ -37,5 +44,5 @@ end
 assignin('base','gain_mat',gain_mat)
 out = sum(out);
 
-noise_level = rms(out)*(10^(-snr/20));
-out = out+(noise_level.*rand(1,1,length(out)));
+%noise_level = rms(out)*(10^(-snr/20));
+%out = out+(noise_level.*rand(1,1,length(out)));
