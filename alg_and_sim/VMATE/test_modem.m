@@ -3,10 +3,10 @@
 clear
 clc
 addpath('modem')
-addpath('modem_tx')
-addpath('modem_rx')
+addpath('modem/modem_tx')
+addpath('modem/modem_rx')
 addpath('propagation')
-addpath('propagation\stokes')
+addpath('propagation/stokes')
 
 % What should be in text files
 modem_filename = 'default_modem.txt';
