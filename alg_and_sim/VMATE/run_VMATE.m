@@ -69,6 +69,6 @@ for j = 1:c
 end
 
 % Clean workspace
-vars = {'ans','c','d','r','fp','i','j','status','vars'};
+vars = {'ans','c','d','r','fp','i','j','status','vars','modem_filename','stokes_filename','msg_len'};
 clear(vars{:});
  

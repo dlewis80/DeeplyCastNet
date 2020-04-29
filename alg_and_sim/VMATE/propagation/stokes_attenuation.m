@@ -54,4 +54,4 @@ assignin('base','gain_mat',gain_mat) % Export to base for debugging
 out = sum(out);
 
 noise_level = rms(out)*(10^(-snr/20));
-out = out+(noise_level.*rand(1,1,length(out)));
+out = out+(noise_level.*rand(size(out)));
