@@ -5,9 +5,17 @@ function out = stokes_attenuation(in0,in1,prop_filename)
 % now it will acheive the objective of how noise affects performance for
 % different levels of attenuation
 
+% Inputs:
+% in0: Pressure (uPa) at transmitter corresponding to '0'
+% in1: Pressure (uPa) at transmitter corresponding to '1'
+% prop_filename: name of file containing propagation parameters
+
+% Outputs:
+% out: Total pressure (uPa) at receiver from '0's, '1's, and noise
+
 % Constants
 eta = 1.72; % dynamic viscosity coefficient of water near freezing
-rho = 997; % density water
+rho = 997; % density of water
 V = 1500; % speed of sound in water (average)
 
 % Input parameters
@@ -15,7 +23,8 @@ fp = fopen(prop_filename);
 fs = str2double(strtok(fgets(fp),' '));
 distances = eval(strtok(fgets(fp),' '));
 freqs = eval(strtok(fgets(fp),' '));
-fclose(fp)
+snr = str2double(strtok(fgets(fp),' '));
+fclose(fp);
 
 % Adjust for delay
 delay = round(distances/V*fs); 
@@ -41,8 +50,8 @@ for i = 1:length(alphas)
         end
     end
 end
-assignin('base','gain_mat',gain_mat)
+assignin('base','gain_mat',gain_mat) % Export to base for debugging
 out = sum(out);
 
-%noise_level = rms(out)*(10^(-snr/20));
-%out = out+(noise_level.*rand(1,1,length(out)));
+noise_level = rms(out)*(10^(-snr/20));
+out = out+(noise_level.*rand(1,1,length(out)));

@@ -11,8 +11,9 @@ function out = modem_dsp_hpf(in,path)
 % Outputs:
 % out = filtered data
 
-load(path)
-%out = filter(Num,Den,in);
+% HPF currently not in architecture, commenting it out
 out = in;
+%load(path)
+%out = filter(Num,Den,in);
 
 end
